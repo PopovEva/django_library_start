@@ -7,6 +7,7 @@ class Book(models.Model):
     # isbn = models.CharField(max_length=13, unique=True)
     published_date = models.DateField()
     available_copies = models.PositiveIntegerField(default=0)
+    image = models.ImageField(null=True,blank=True,default='/placeholder.png')
 
     def __str__(self):
         return self.title

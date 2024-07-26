@@ -9,9 +9,24 @@ class BookSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
 class LoanSerializer(serializers.ModelSerializer):
+    user_name = serializers.SerializerMethodField()
+    book_title = serializers.SerializerMethodField()
+
     class Meta:
         model = Loan
-        fields = '__all__'    
+        fields = ['id', 'user', 'book', 'loan_date', 'return_date', 'returned', 'user_name', 'book_title']
+
+    def get_user_name(self, obj):
+        return obj.user.username
+
+    def get_book_title(self, obj):
+        return obj.book.title  
+        
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'email', 'first_name', 'last_name')
+        read_only_fields = ('id', 'username')        
         
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
@@ -26,3 +41,5 @@ class RegisterSerializer(serializers.ModelSerializer):
             password=validated_data['password']
         )
         return user               
+    
+    
